@@ -53,7 +53,17 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
   blurInstance: any;
 
   @Input() id = '';
-  @Input() config: IRichTextConfig = initRichTextConfig;
+  _config: IRichTextConfig = initRichTextConfig;
+  @Input() set config(val: IRichTextConfig) {
+    this._config = {
+      ...initRichTextConfig,
+      ...val,
+      toolbarHiddenButtons: [
+        ...(val.toolbarHiddenButtons || []),
+        ...initRichTextConfig.toolbarHiddenButtons
+      ]
+    };
+  }
   @Input() tabIndex: number | null;
 
   @ViewChild('editor', {static: true}) textArea: ElementRef;
@@ -91,8 +101,8 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   ngOnInit() {
-    this.config.toolbarPosition = this.config.toolbarPosition || initRichTextConfig.toolbarPosition;
-    this.config.defaultTag = this.config.defaultTag || initRichTextConfig.defaultTag;
+    this._config.toolbarPosition = this._config.toolbarPosition || initRichTextConfig.toolbarPosition;
+    this._config.defaultTag = this._config.defaultTag || initRichTextConfig.defaultTag;
   }
 
   ngAfterViewInit() {
@@ -106,7 +116,7 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
    * @param command string from triggerCommand
    */
   executeCommand(command: string) {
-    const headingCommands = this.config.tags.map(tag => tag.value);
+    const headingCommands = this._config.tags.map(tag => tag.value);
     this.btnClick.emit(command);
     this.focus();
     if (command === 'toggleEditorMode') {
@@ -192,7 +202,7 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
   onContentChange(element: HTMLElement): void {
     let html = this.modeVisual ? element.innerHTML : element.innerText;
     if (typeof this.onChange === 'function') {
-      this.onChange(this.config.sanitize || this.config.sanitize === undefined ?
+      this.onChange(this._config.sanitize || this._config.sanitize === undefined ?
         this.sanitizer.sanitize(SecurityContext.HTML, html) : html);
       this.showPlaceholder = !element.innerText;
     }
@@ -342,18 +352,18 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   private configure() {
-    this.editorService.uploadUrl = this.config.uploadUrl;
-    this.editorService.uploadWithCredentials = this.config.uploadWithCredentials;
-    if (this.config.defaultParagraphSeparator) {
-      this.editorService.setDefaultParagraphSeparator(this.config.defaultParagraphSeparator);
+    this.editorService.uploadUrl = this._config.uploadUrl;
+    this.editorService.uploadWithCredentials = this._config.uploadWithCredentials;
+    if (this._config.defaultParagraphSeparator) {
+      this.editorService.setDefaultParagraphSeparator(this._config.defaultParagraphSeparator);
     }
-    if (this.config.defaultFontName) {
-      this.editorService.setFontName(this.config.defaultFontName);
+    if (this._config.defaultFontName) {
+      this.editorService.setFontName(this._config.defaultFontName);
     }
   }
 
   getFonts() {
-    const fonts = this.config.fonts ? this.config.fonts : initRichTextConfig.fonts;
+    const fonts = this._config.fonts ? this._config.fonts : initRichTextConfig.fonts;
     return fonts.map(x => {
       return <SelectOption>{label: x.name, name: x.name, value: x.value};
     });
@@ -361,7 +371,7 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
 
   getCustomTags() {
     const tags = ['span'];
-    this.config.customClasses.forEach(x => {
+    this._config.customClasses.forEach(x => {
       if (x.tag !== undefined) {
         if (!tags.includes(x.tag)) {
           tags.push(x.tag);

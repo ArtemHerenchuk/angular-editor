@@ -1,29 +1,29 @@
-<div class="angular-editor angular-editor-{{config.toolbarPosition}}" #angularEditor [style.width]="config.width"
-     [style.minWidth]="config.minWidth">
+<div class="angular-editor angular-editor-{{_config.toolbarPosition}}" #angularEditor [style.width]="_config.width"
+     [style.minWidth]="_config.minWidth">
   <el-input-rich-text-toolbar #editorToolbar
                           [id]="id"
-                          [uploadUrl]="config.uploadUrl"
-                          [showToolbar]="config.showToolbar !== undefined ? config.showToolbar : true"
+                          [uploadUrl]="_config.uploadUrl"
+                          [showToolbar]="_config.showToolbar !== undefined ? _config.showToolbar : true"
                           [fonts]="getFonts()"
-                          [tags]="config.tags"
-                          [defaultTag]="config.defaultTag"
-                          [customClasses]="config.customClasses"
-                          [color]="config.defaultColor"
-                          [backgroundColor]="config.defaultBackgroundColor"
-                          [defaultFontName]="config.defaultFontName"
-                          [hiddenButtons]="config.toolbarHiddenButtons"
+                          [tags]="_config.tags"
+                          [defaultTag]="_config.defaultTag"
+                          [customClasses]="_config.customClasses"
+                          [color]="_config.defaultColor"
+                          [backgroundColor]="_config.defaultBackgroundColor"
+                          [defaultFontName]="_config.defaultFontName"
+                          [hiddenButtons]="_config.toolbarHiddenButtons"
                           (execute)="executeCommand($event)"></el-input-rich-text-toolbar>
 
   <div class="angular-editor-wrapper" #editorWrapper>
     <div #editor class="angular-editor-textarea"
-         [attr.contenteditable]="config.editable"
+         [attr.contenteditable]="_config.editable"
          [attr.tabindex]="disabled ? -1 : tabIndex"
-         [attr.translate]="config.translate"
-         [attr.spellcheck]="config.spellcheck"
-         [style.height]="config.height"
-         [style.minHeight]="config.minHeight"
-         [style.maxHeight]="config.maxHeight"
-         [style.outline]="config.outline === false ? 'none': undefined"
+         [attr.translate]="_config.translate"
+         [attr.spellcheck]="_config.spellcheck"
+         [style.height]="_config.height"
+         [style.minHeight]="_config.minHeight"
+         [style.maxHeight]="_config.maxHeight"
+         [style.outline]="_config.outline === false ? 'none': undefined"
          (input)="onContentChange($event.target)"
          (focus)="onTextAreaFocus($event)"
          (blur)="onTextAreaBlur($event)"
@@ -32,7 +32,7 @@
          (mouseout)="onTextAreaMouseOut($event)"
     >
     </div>
-    <span class="angular-editor-placeholder" *ngIf="showPlaceholder">{{ modeVisual ? config['textPlaceholder'] : config['codePlaceholder'] }}</span>
+    <span class="angular-editor-placeholder" *ngIf="showPlaceholder">{{ modeVisual ? _config.textPlaceholder : _config.codePlaceholder }}</span>
     <div class="angular-editor-underline"></div>
   </div>
 </div>

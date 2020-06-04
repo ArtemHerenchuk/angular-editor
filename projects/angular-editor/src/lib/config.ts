@@ -112,14 +112,15 @@ export const initRichTextConfig: IRichTextConfig = {
   sanitize: true,
   toolbarPosition: 'top',
   outline: true,
-  /*toolbarHiddenButtons: [
-    ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
-    ['heading', 'fontName', 'color'],
-    ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent'],
-    ['cut', 'copy', 'delete', 'removeFormat', 'undo', 'redo'],
-    ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
-    ['link', 'unlink', 'image', 'video']
-  ]*/
+  toolbarHiddenButtons: [['image'], ['video'], ['fontSize']]
+/*toolbarHiddenButtons: [
+  ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
+  ['heading', 'fontName', 'color'],
+  ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent'],
+  ['cut', 'copy', 'delete', 'removeFormat', 'undo', 'redo'],
+  ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
+  ['link', 'unlink', 'image', 'video']
+]*/
 };
 
 export type btnId = 'undo' |
