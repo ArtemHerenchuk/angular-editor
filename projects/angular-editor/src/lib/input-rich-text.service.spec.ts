@@ -1,17 +1,17 @@
 import {inject, TestBed} from '@angular/core/testing';
 
-import {AngularEditorService} from './angular-editor.service';
+import {InputRichTextService} from './input-rich-text.service';
 import {HttpClientModule} from '@angular/common/http';
 
 describe('AngularEditorService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientModule ],
-      providers: [AngularEditorService]
+      providers: [InputRichTextService]
     });
   });
 
-  it('should be created', inject([AngularEditorService], (service: AngularEditorService) => {
+  it('should be created', inject([InputRichTextService], (service: InputRichTextService) => {
     expect(service).toBeTruthy();
   }));
 });

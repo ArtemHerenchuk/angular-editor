@@ -1,17 +1,17 @@
 import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
-import {AngularEditorService} from './angular-editor.service';
+import {InputRichTextService} from './input-rich-text.service';
 import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
 import {btnId, IRichTextCustomClass, IRichTextCustomBtn, IRichTextTag} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 
 @Component({
-  selector: 'angular-editor-toolbar',
-  templateUrl: './angular-editor-toolbar.component.html',
-  styleUrls: ['./angular-editor-toolbar.component.scss']
+  selector: 'el-input-rich-text-toolbar',
+  templateUrl: './input-rich-text-toolbar.component.html',
+  styleUrls: ['./input-rich-text-toolbar.component.scss']
 })
 
-export class AngularEditorToolbarComponent {
+export class InputRichTextToolbarComponent {
   htmlMode = false;
   linkSelected = false;
   block = 'p';
@@ -84,7 +84,7 @@ export class AngularEditorToolbarComponent {
 
   constructor(
     private r: Renderer2,
-    private editorService: AngularEditorService,
+    private editorService: InputRichTextService,
     @Inject(DOCUMENT) private doc: any
   ) {
   }

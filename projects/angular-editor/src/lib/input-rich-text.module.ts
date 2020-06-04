@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
-import {AngularEditorComponent} from './angular-editor.component';
-import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component';
+import {InputRichTextComponent} from './input-rich-text.component';
+import {InputRichTextToolbarComponent} from './input-rich-text-toolbar.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { AeSelectComponent } from './ae-select/ae-select.component';
@@ -10,8 +10,8 @@ import {ColorPickerModule} from "ngx-color-picker";
   imports: [
     CommonModule, FormsModule, ReactiveFormsModule, ColorPickerModule
   ],
-  declarations: [AngularEditorComponent, AngularEditorToolbarComponent, AeSelectComponent],
-  exports: [AngularEditorComponent, AngularEditorToolbarComponent]
+  declarations: [InputRichTextComponent, InputRichTextToolbarComponent, AeSelectComponent],
+  exports: [InputRichTextComponent, InputRichTextToolbarComponent]
 })
-export class AngularEditorModule {
+export class InputRichTextModule {
 }

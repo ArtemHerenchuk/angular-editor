@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { AppComponent } from './app.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import {AngularEditorModule} from '../../../angular-editor/src/lib/angular-editor.module';
+import {InputRichTextModule} from '../../../angular-editor/src/lib/input-rich-text.module';
 
 
 @NgModule({
@@ -13,7 +13,7 @@ import {AngularEditorModule} from '../../../angular-editor/src/lib/angular-edito
   ],
   imports: [
     BrowserModule,
-    AngularEditorModule,
+    InputRichTextModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule

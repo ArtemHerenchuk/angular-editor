@@ -11,7 +11,7 @@ export interface UploadResponse {
 @Injectable({
   providedIn: 'root'
 })
-export class AngularEditorService {
+export class InputRichTextService {
 
   savedSelection: Range | null;
   selectedText: string;

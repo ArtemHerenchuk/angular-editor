@@ -1,6 +1,6 @@
 <div class="angular-editor angular-editor-{{config.toolbarPosition}}" #angularEditor [style.width]="config.width"
      [style.minWidth]="config.minWidth">
-  <angular-editor-toolbar #editorToolbar
+  <el-input-rich-text-toolbar #editorToolbar
                           [id]="id"
                           [uploadUrl]="config.uploadUrl"
                           [showToolbar]="config.showToolbar !== undefined ? config.showToolbar : true"
@@ -12,7 +12,7 @@
                           [backgroundColor]="config.defaultBackgroundColor"
                           [defaultFontName]="config.defaultFontName"
                           [hiddenButtons]="config.toolbarHiddenButtons"
-                          (execute)="executeCommand($event)"></angular-editor-toolbar>
+                          (execute)="executeCommand($event)"></el-input-rich-text-toolbar>
 
   <div class="angular-editor-wrapper" #editorWrapper>
     <div #editor class="angular-editor-textarea"

@@ -45,10 +45,10 @@ Import `angular-editor` module
 
 ```js
 import { HttpClientModule} from '@angular/common/http';
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { InputRichTextModule } from '@kolkov/angular-editor';
 
 @NgModule({
-  imports: [ HttpClientModule, AngularEditorModule ]
+  imports: [ HttpClientModule, InputRichTextModule ]
 })
 ```
 

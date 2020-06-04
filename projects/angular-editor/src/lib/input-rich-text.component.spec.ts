@@ -1,26 +1,26 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {AngularEditorComponent} from './angular-editor.component';
-import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component';
+import {InputRichTextComponent} from './input-rich-text.component';
+import {InputRichTextToolbarComponent} from './input-rich-text-toolbar.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
 import {AeSelectComponent} from './ae-select/ae-select.component';
-import {AngularEditorModule} from './angular-editor.module';
+import {InputRichTextModule} from './input-rich-text.module';
 
 describe('AngularEditorComponent', () => {
-  let component: AngularEditorComponent;
-  let fixture: ComponentFixture<AngularEditorComponent>;
+  let component: InputRichTextComponent;
+  let fixture: ComponentFixture<InputRichTextComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule, HttpClientModule],
-      declarations: [AngularEditorComponent, AngularEditorToolbarComponent, AeSelectComponent]
+      declarations: [InputRichTextComponent, InputRichTextToolbarComponent, AeSelectComponent]
     })
       .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AngularEditorComponent);
+    fixture = TestBed.createComponent(InputRichTextComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

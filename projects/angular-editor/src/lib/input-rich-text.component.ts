@@ -19,25 +19,25 @@ import {
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 import {initRichTextConfig, IRichTextConfig} from './config';
-import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component';
-import {AngularEditorService} from './angular-editor.service';
+import {InputRichTextToolbarComponent} from './input-rich-text-toolbar.component';
+import {InputRichTextService} from './input-rich-text.service';
 import {DOCUMENT} from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
 import {SelectOption} from "./ae-select/ae-select.component";
 
 @Component({
-  selector: 'angular-editor',
-  templateUrl: './angular-editor.component.html',
-  styleUrls: ['./angular-editor.component.scss'],
+  selector: 'el-input-rich-text',
+  templateUrl: './input-rich-text.component.html',
+  styleUrls: ['./input-rich-text.component.scss'],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => AngularEditorComponent),
+      useExisting: forwardRef(() => InputRichTextComponent),
       multi: true
     }
   ]
 })
-export class AngularEditorComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
+export class InputRichTextComponent implements OnInit, ControlValueAccessor, AfterViewInit, OnDestroy {
 
   private onChange: (value: string) => void;
   private onTouched: () => void;
@@ -58,7 +58,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
-  @ViewChild('editorToolbar', {static: false}) editorToolbar: AngularEditorToolbarComponent;
+  @ViewChild('editorToolbar', {static: false}) editorToolbar: InputRichTextToolbarComponent;
 
   @Output() viewMode = new EventEmitter<boolean>();
 
@@ -79,7 +79,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
 
   constructor(
     private r: Renderer2,
-    private editorService: AngularEditorService,
+    private editorService: InputRichTextService,
     @Inject(DOCUMENT) private doc: any,
     private sanitizer: DomSanitizer,
     private cdRef: ChangeDetectorRef,
