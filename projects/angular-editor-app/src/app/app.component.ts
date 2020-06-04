@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AngularEditorConfig} from 'angular-editor';
+import {IRIchTextConfig} from '../../../angular-editor/src/lib/config';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -15,20 +15,49 @@ export class AppComponent implements OnInit {
   htmlContent1 = '';
   htmlContent2 = '';
 
-  config1: AngularEditorConfig = {
+  config1: IRIchTextConfig = {
     editable: true,
     spellcheck: true,
     minHeight: '5rem',
     maxHeight: '15rem',
-    placeholder: 'Enter text here...',
+    textPlaceholder: 'Enter text here...',
+    codePlaceholder: 'Enter code here...',
     translate: 'no',
     sanitize: false,
     // toolbarPosition: 'top',
     outline: true,
-    defaultFontName: 'Comic Sans MS',
-    defaultFontSize: '5',
+    defaultFontName: 'Open Sans',
     // showToolbar: false,
     defaultParagraphSeparator: 'p',
+    defaultTag: 'p',
+    defaultColor: '#333',
+    defaultBackgroundColor: '#fff',
+    tags: [
+      {
+        label: 'Paragraph',
+        value: 'p',
+      },
+      {
+        label: 'Heading 1',
+        value: 'h1',
+      },
+      {
+        label: 'Heading 2',
+        value: 'h2',
+      },
+      {
+        label: 'Heading 3',
+        value: 'h3',
+      },
+      {
+        label: 'Heading 4',
+        value: 'h4',
+      },
+      {
+        label: 'Small',
+        value: 'small',
+      },
+    ],
     customClasses: [
       {
         name: 'quote',
@@ -44,23 +73,20 @@ export class AppComponent implements OnInit {
         tag: 'h1',
       },
     ],
-    toolbarHiddenButtons: [
-      ['bold', 'italic'],
-      ['fontSize']
-    ]
+    toolbarPosition: 'bottom'
   };
 
-  config2: AngularEditorConfig = {
+  config2: IRIchTextConfig = {
     editable: true,
     spellcheck: true,
     minHeight: '5rem',
     maxHeight: '15rem',
-    placeholder: 'Enter text here...',
+    textPlaceholder: 'Enter text here...',
+    codePlaceholder: 'Enter code here...',
     translate: 'no',
     sanitize: true,
     toolbarPosition: 'bottom',
     defaultFontName: 'Comic Sans MS',
-    defaultFontSize: '5',
     defaultParagraphSeparator: 'p',
     customClasses: [
       {
@@ -89,7 +115,7 @@ export class AppComponent implements OnInit {
   }
 
   onChange(event) {
-    console.log('changed');
+    // console.log('changed');
   }
 
   onBlur(event) {

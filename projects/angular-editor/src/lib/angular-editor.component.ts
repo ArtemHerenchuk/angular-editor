@@ -18,12 +18,12 @@ import {
   ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {AngularEditorConfig, angularEditorConfig} from './config';
+import {btnId, initRichTextConfig, IRIchTextConfig} from './config';
 import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component';
 import {AngularEditorService} from './angular-editor.service';
 import {DOCUMENT} from '@angular/common';
 import {DomSanitizer} from '@angular/platform-browser';
-import {isDefined} from './utils';
+import {SelectOption} from "./ae-select/ae-select.component";
 
 @Component({
   selector: 'angular-editor',
@@ -53,11 +53,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   blurInstance: any;
 
   @Input() id = '';
-  @Input() config: AngularEditorConfig = angularEditorConfig;
-  @Input() placeholder = '';
+  @Input() config: IRIchTextConfig = initRichTextConfig;
   @Input() tabIndex: number | null;
-
-  @Output() html;
 
   @ViewChild('editor', {static: true}) textArea: ElementRef;
   @ViewChild('editorWrapper', {static: true}) editorWrapper: ElementRef;
@@ -66,12 +63,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   @Output() viewMode = new EventEmitter<boolean>();
 
   /** emits `blur` event when focused out from the textarea */
-    // tslint:disable-next-line:no-output-native no-output-rename
   @Output('blur') blurEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
 
   /** emits `focus` event when focused in to the textarea */
-    // tslint:disable-next-line:no-output-rename no-output-native
   @Output('focus') focusEvent: EventEmitter<FocusEvent> = new EventEmitter<FocusEvent>();
+
+  @Output() btnClick: EventEmitter<string> = new EventEmitter<string>();
 
   @HostBinding('attr.tabindex') tabindex = -1;
 
@@ -94,13 +91,14 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   }
 
   ngOnInit() {
-    this.config.toolbarPosition = this.config.toolbarPosition ? this.config.toolbarPosition : angularEditorConfig.toolbarPosition;
+    this.config.toolbarPosition = this.config.toolbarPosition || initRichTextConfig.toolbarPosition;
+    this.config.defaultTag = this.config.defaultTag || initRichTextConfig.defaultTag;
   }
 
   ngAfterViewInit() {
-    if (isDefined(this.autoFocus)) {
-      this.focus();
-    }
+    setTimeout(() => {
+      // this.executeCommand(this.config.defaultTag);
+    })
   }
 
   /**
@@ -108,6 +106,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @param command string from triggerCommand
    */
   executeCommand(command: string) {
+    const headingCommands = this.config.tags.map(tag => tag.value);
+    this.btnClick.emit(command);
     this.focus();
     if (command === 'toggleEditorMode') {
       this.toggleEditorMode(this.modeVisual);
@@ -115,9 +115,9 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       if (command === 'clear') {
         this.editorService.removeSelectedElements(this.getCustomTags());
         this.onContentChange(this.textArea.nativeElement);
-      } else if (command === 'default') {
-        this.editorService.removeSelectedElements('h1,h2,h3,h4,h5,h6,p,pre');
-        this.onContentChange(this.textArea.nativeElement);
+      } else if (headingCommands.includes(command)) {
+        this.editorService.executeCommand(command);
+        this.removeBrTags();
       } else {
         this.editorService.executeCommand(command);
       }
@@ -190,21 +190,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @param element html element from contenteditable
    */
   onContentChange(element: HTMLElement): void {
-    let html = '';
-    if (this.modeVisual) {
-      html = element.innerHTML;
-    } else {
-      html = element.innerText;
-    }
-    if ((!html || html === '<br>')) {
-      html = '';
-    }
+    let html = this.modeVisual ? element.innerHTML : element.innerText;
     if (typeof this.onChange === 'function') {
       this.onChange(this.config.sanitize || this.config.sanitize === undefined ?
         this.sanitizer.sanitize(SecurityContext.HTML, html) : html);
-      if ((!html) !== this.showPlaceholder) {
-        this.togglePlaceholder(this.showPlaceholder);
-      }
+      this.showPlaceholder = !element.innerText;
     }
     this.changed = true;
   }
@@ -216,7 +206,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @param fn a function
    */
   registerOnChange(fn: any): void {
-    this.onChange = e => (e === '<br>' ? fn('') : fn(e)) ;
+    this.onChange = e => (e === '<br>' ? fn('') : fn(e));
   }
 
   /**
@@ -235,12 +225,8 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
    * @param value value to be executed when there is a change in contenteditable
    */
   writeValue(value: any): void {
-
-    if ((!value || value === '<br>' || value === '') !== this.showPlaceholder) {
-      this.togglePlaceholder(this.showPlaceholder);
-    }
-
-    if (value === undefined || value === '' || value === '<br>') {
+    this.showPlaceholder = !value;
+    if (value === undefined || value === '') {
       value = null;
     }
 
@@ -257,22 +243,6 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     this.r.setProperty(this.textArea.nativeElement, 'innerHTML', normalizedValue);
 
     return;
-  }
-
-  /**
-   * toggles placeholder based on input string
-   *
-   * @param value A HTML string from the editor
-   */
-  togglePlaceholder(value: boolean): void {
-    if (!value) {
-      this.r.addClass(this.editorWrapper.nativeElement, 'show-placeholder');
-      this.showPlaceholder = true;
-
-    } else {
-      this.r.removeClass(this.editorWrapper.nativeElement, 'show-placeholder');
-      this.showPlaceholder = false;
-    }
   }
 
   /**
@@ -312,7 +282,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       this.r.setStyle(oCode, 'word-break', 'keep-all');
       this.r.setStyle(oCode, 'outline', 'none');
       this.r.setStyle(oCode, 'margin', '0');
-      this.r.setStyle(oCode, 'background-color', '#fff5b9');
+      this.r.setStyle(oCode, 'background-color', '#F3F3F3');
       this.r.setProperty(oCode, 'contentEditable', true);
       this.r.appendChild(oCode, oContent);
       this.focusInstance = this.r.listen(oCode, 'focus', (event) => this.onTextAreaFocus(event));
@@ -341,6 +311,11 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
       editableElement.focus();
     }
     this.editorToolbar.setEditorMode(!this.modeVisual);
+  }
+
+  removeBrTags() {
+    const editableElement = this.textArea.nativeElement;
+    this.r.setProperty(editableElement, 'innerHTML', editableElement.innerHTML.replace(/<br>/gi, ''));
   }
 
   /**
@@ -375,15 +350,12 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
     if (this.config.defaultFontName) {
       this.editorService.setFontName(this.config.defaultFontName);
     }
-    if (this.config.defaultFontSize) {
-      this.editorService.setFontSize(this.config.defaultFontSize);
-    }
   }
 
   getFonts() {
-    const fonts = this.config.fonts ? this.config.fonts : angularEditorConfig.fonts;
+    const fonts = this.config.fonts ? this.config.fonts : initRichTextConfig.fonts;
     return fonts.map(x => {
-      return {label: x.name, value: x.name};
+      return <SelectOption>{label: x.name, name: x.name, value: x.value};
     });
   }
 

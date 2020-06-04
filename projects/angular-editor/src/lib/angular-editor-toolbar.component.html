@@ -68,6 +68,7 @@
   <div class="angular-editor-toolbar-set">
 
     <ae-select class="select-heading" [options]="headings"
+               [id]="'heading'"
                [(ngModel)]="block"
                (change)="triggerCommand(block)"
                [disabled]="htmlMode"
@@ -77,6 +78,7 @@
   <div class="angular-editor-toolbar-set">
 
     <ae-select class="select-font" [options]="fonts"
+               [id]="'font'"
                [(ngModel)]="fontName"
                (change)="setFontName(fontName)"
                [disabled]="htmlMode"
@@ -84,37 +86,32 @@
                tabindex="-1"></ae-select>
   </div>
   <div class="angular-editor-toolbar-set">
-
-    <ae-select class="select-font-size" [options]="fontSizes"
-               [(ngModel)]="fontSize"
-               (change)="setFontSize(fontSize)"
-               [disabled]="htmlMode"
-               [hidden]="isButtonHidden('fontSize')"
-               tabindex="-1">
-    </ae-select>
-  </div>
-  <div class="angular-editor-toolbar-set">
-    <input
-      style="display: none"
-      type="color" (change)="insertColor(fgInput.value, 'textColor')"
-      #fgInput>
+    <input [(colorPicker)]="color"
+           #fgInput
+           style="display: none;"
+           (colorPickerChange)="insertColor(color, 'textColor')"
+           [hidden]="isButtonHidden('textColor')"/>
     <button [id]="'foregroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="fgInput.click()"
             title="Text Color"
+            [style.color]="color"
             [disabled]="htmlMode" [hidden]="isButtonHidden('textColor')" tabindex="-1"><span
       class="color-label foreground"><i class="fa fa-font"></i></span>
     </button>
-    <input
-      style="display: none"
-      type="color" (change)="insertColor(bgInput.value, 'backgroundColor')"
-      #bgInput>
+    <input [(colorPicker)]="backgroundColor"
+           #bgInput
+           style="display: none;"
+           (colorPickerChange)="insertColor(backgroundColor, 'backgroundColor')"/>
     <button [id]="'backgroundColorPicker-'+id" type="button" class="angular-editor-button" (click)="bgInput.click()"
             title="Background Color"
+            [style.color]="backgroundColor"
             [disabled]="htmlMode" [hidden]="isButtonHidden('backgroundColor')" tabindex="-1"><span
-      class="color-label background"><i class="fa fa-font"></i></span>
+      class="color-label background"><i class="fa fa-pencil"></i></span>
     </button>
   </div>
   <div *ngIf="_customClasses" class="angular-editor-toolbar-set">
-    <ae-select class="select-custom-style" [options]="customClassList"
+    <ae-select class="select-custom-style"
+               [id]="'customClass'"
+               [options]="customClassList"
                [(ngModel)]="customClassId"
                (change)="setCustomClass(customClassId)"
                [disabled]="htmlMode"
@@ -159,4 +156,13 @@
             (click)="triggerCommand('toggleEditorMode')" [hidden]="isButtonHidden('toggleEditorMode')" tabindex="-1"><i
       class='fa fa-code'></i></button>
   </div>
+  <div *ngFor="let btn of customButtons" class="angular-editor-toolbar-set">
+    <button [id]="btn.id" type="button" [title]="btn.ico" class="angular-editor-button"
+            (click)="triggerCommand(btn.id)" [hidden]="isButtonHidden('toggleEditorMode')" tabindex="-1"></button>
+  </div>
+<!--  <div class="angular-editor-toolbar-set" *ngIf="!!hiddenButtons[0]">-->
+<!--    <button [id]="'toggleEditorMode-'+id" type="button" title="Open Hidden Fields" class="angular-editor-button"-->
+<!--            (click)="triggerCommand('toggleHiddenButtons')" [hidden]="isButtonHidden('toggleHiddenButtons')" tabindex="-1"><i-->
+<!--      class='fa fa-code'></i></button>-->
+<!--  </div>-->
 </div>

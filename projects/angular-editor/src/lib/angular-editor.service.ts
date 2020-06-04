@@ -28,11 +28,17 @@ export class AngularEditorService {
    * @param command string from triggerCommand
    */
   executeCommand(command: string) {
-    const commands = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre'];
+    const commands = ['h1', 'h2', 'h3', 'h4', 'p'];
     if (commands.includes(command)) {
+      this.removeSelectedElements('h1,h2,h3,h4,p,small');
       this.doc.execCommand('formatBlock', false, command);
       return;
+    } else if (command === 'small') {
+      this.removeSelectedElements('h1,h2,h3,h4,p,small');
+      this.createCustomClass(<CustomClass>{name: 'small', class: 'small', tag: 'small'});
+      return;
     }
+
     this.doc.execCommand(command, false, null);
   }
 
@@ -72,14 +78,6 @@ export class AngularEditorService {
    */
   setFontName(fontName: string) {
     this.doc.execCommand('fontName', false, fontName);
-  }
-
-  /**
-   * Set font size
-   * @param fontSize string
-   */
-  setFontSize(fontSize: string) {
-    this.doc.execCommand('fontSize', false, fontSize);
   }
 
   /**

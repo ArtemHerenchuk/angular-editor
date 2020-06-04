@@ -4,10 +4,11 @@ import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component'
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
 import { AeSelectComponent } from './ae-select/ae-select.component';
+import {ColorPickerModule} from "ngx-color-picker";
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, ReactiveFormsModule
+    CommonModule, FormsModule, ReactiveFormsModule, ColorPickerModule
   ],
   declarations: [AngularEditorComponent, AngularEditorToolbarComponent, AeSelectComponent],
   exports: [AngularEditorComponent, AngularEditorToolbarComponent]

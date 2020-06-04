@@ -18,6 +18,7 @@ import {isDefined} from '../utils';
 export interface SelectOption {
   label: string;
   value: string;
+  name?: string;
 }
 
 @Component({
@@ -37,6 +38,7 @@ export class AeSelectComponent implements OnInit, ControlValueAccessor {
   @Input() options: SelectOption[] = [];
   // tslint:disable-next-line:no-input-rename
   @Input('hidden') isHidden: boolean;
+  @Input() id: string;
 
   selectedOption: SelectOption;
   disabled = false;
@@ -57,7 +59,7 @@ export class AeSelectComponent implements OnInit, ControlValueAccessor {
   // tslint:disable-next-line:no-output-native no-output-rename
   @Output('change') changeEvent = new EventEmitter();
 
-  @ViewChild('labelButton', {static: true}) labelButton: ElementRef;
+  @ViewChild('labelButton', {static: false}) labelButton: ElementRef;
 
   constructor(private elRef: ElementRef,
               private r: Renderer2,

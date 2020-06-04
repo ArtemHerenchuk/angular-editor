@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, V
 import {AngularEditorService} from './angular-editor.service';
 import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
-import {CustomClass} from './config';
+import {btnId, CustomClass, ICustomBtn, ITag} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 
 @Component({
@@ -14,119 +14,56 @@ import {SelectOption} from './ae-select/ae-select.component';
 export class AngularEditorToolbarComponent {
   htmlMode = false;
   linkSelected = false;
-  block = 'default';
-  fontName = 'Times New Roman';
-  fontSize = '3';
+  block = 'p';
+  fontName = 'Open Sans';
   foreColour;
   backColor;
+  headings: SelectOption[] = [];
+  @Input() set tags(tags: ITag[]) {
+    this.headings = tags.map(tag => <SelectOption>{label: tag.label, value: tag.value});
+  }
+  private _defaultTag: string = 'p';
+  @Input() set defaultTag(val: string) {
+    this._defaultTag = val;
+    this.block = val;
+  };
+  get defaultTag(): string {
+    return this._defaultTag;
+  }
 
-  headings: SelectOption[] = [
-    {
-      label: 'Heading 1',
-      value: 'h1',
-    },
-    {
-      label: 'Heading 2',
-      value: 'h2',
-    },
-    {
-      label: 'Heading 3',
-      value: 'h3',
-    },
-    {
-      label: 'Heading 4',
-      value: 'h4',
-    },
-    {
-      label: 'Heading 5',
-      value: 'h5',
-    },
-    {
-      label: 'Heading 6',
-      value: 'h6',
-    },
-    {
-      label: 'Heading 7',
-      value: 'h7',
-    },
-    {
-      label: 'Paragraph',
-      value: 'p',
-    },
-    {
-      label: 'Predefined',
-      value: 'pre'
-    },
-    {
-      label: 'Standard',
-      value: 'div'
-    },
-    {
-      label: 'default',
-      value: 'default'
-    }
-  ];
-
-  fontSizes: SelectOption[] = [
-    {
-      label: '1',
-      value: '1',
-    },
-    {
-      label: '2',
-      value: '2',
-    },
-    {
-      label: '3',
-      value: '3',
-    },
-    {
-      label: '4',
-      value: '4',
-    },
-    {
-      label: '5',
-      value: '5',
-    },
-    {
-      label: '6',
-      value: '6',
-    },
-    {
-      label: '7',
-      value: '7',
-    }
-  ];
+  @Input() color = '#333';
+  @Input() backgroundColor = '#fff';
 
   customClassId = '-1';
-  // tslint:disable-next-line:variable-name
   _customClasses: CustomClass[];
   customClassList: SelectOption[] = [{label: '', value: ''}];
-  // uploadUrl: string;
-
   tagMap = {
     BLOCKQUOTE: 'indent',
     A: 'link'
   };
-
-  select = ['H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'P', 'PRE', 'DIV'];
-
-  buttons = ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter',
-    'justifyRight', 'justifyFull', 'indent', 'outdent', 'insertUnorderedList', 'insertOrderedList', 'link'];
+  select = ['H1', 'H2', 'H3', 'H4', 'P', 'SMALL'];
+  buttons: btnId[] = ['bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'justifyLeft', 'justifyCenter',
+    'justifyRight', 'justifyFull', 'indent', 'outdent', 'insertUnorderedList', 'insertOrderedList', 'link', 'toggleHiddenButtons'];
 
   @Input() id: string;
   @Input() uploadUrl: string;
   @Input() showToolbar: boolean;
-  @Input() fonts: SelectOption[] = [{label: '', value: ''}];
+  @Input() fonts: SelectOption[] = [{label: '', value: '', name: ''}];
 
   @Input()
   set customClasses(classes: CustomClass[]) {
     if (classes) {
       this._customClasses = classes;
-      this.customClassList = this._customClasses.map((x, i) => ({label: x.name, value: i.toString()}));
-      this.customClassList.unshift({label: 'Clear Class', value: '-1'});
+      this.customClassList = this._customClasses.map((x, i) => ({
+        label: x.name,
+        name: i.toString(),
+        value: i.toString()
+      }));
+      this.customClassList.unshift({label: 'Clear Class', name: '', value: '-1'});
     }
   }
+
+  @Input() customButtons: ICustomBtn[] = [];
 
   @Input()
   set defaultFontName(value: string) {
@@ -135,16 +72,9 @@ export class AngularEditorToolbarComponent {
     }
   }
 
-  @Input()
-  set defaultFontSize(value: string) {
-    if (value) {
-      this.fontSize = value;
-    }
-  }
-
   @Input() hiddenButtons: string[][];
 
-  @Output() execute: EventEmitter<string> = new EventEmitter<string>();
+  @Output() execute: EventEmitter<btnId> = new EventEmitter<btnId>();
 
   @ViewChild('fileInput', {static: true}) myInputFile: ElementRef;
 
@@ -163,7 +93,7 @@ export class AngularEditorToolbarComponent {
    * Trigger command from editor header buttons
    * @param command string from toolbar buttons
    */
-  triggerCommand(command: string) {
+  triggerCommand(command: btnId) {
     this.execute.emit(command);
   }
 
@@ -179,7 +109,7 @@ export class AngularEditorToolbarComponent {
       const elementById = this.doc.getElementById(e + '-' + this.id);
       if (result) {
         this.r.addClass(elementById, 'active');
-      } else {
+      } else if (elementById) {
         this.r.removeClass(elementById, 'active');
       }
     });
@@ -194,7 +124,8 @@ export class AngularEditorToolbarComponent {
     }
     this.linkSelected = nodes.findIndex(x => x.nodeName === 'A') > -1;
     let found = false;
-    this.select.forEach(y => {
+    this.headings.forEach(h => {
+      const y = h.value.toUpperCase();
       const node = nodes.find(x => x.nodeName === y);
       if (node !== undefined && y === node.nodeName) {
         if (found === false) {
@@ -202,7 +133,7 @@ export class AngularEditorToolbarComponent {
           found = true;
         }
       } else if (found === false) {
-        this.block = 'default';
+        this.block = this.defaultTag.slice(0);
       }
     });
 
@@ -236,7 +167,6 @@ export class AngularEditorToolbarComponent {
     });
 
     this.foreColour = this.doc.queryCommandValue('ForeColor');
-    this.fontSize = this.doc.queryCommandValue('FontSize');
     this.fontName = this.doc.queryCommandValue('FontName').replace(/"/g, '');
     this.backColor = this.doc.queryCommandValue('backColor');
   }
@@ -286,15 +216,6 @@ export class AngularEditorToolbarComponent {
   }
 
   /**
-   * set font Size
-   * @param fontSize string
-   */
-  setFontSize(fontSize: string): void {
-    this.editorService.setFontSize(fontSize);
-    this.execute.emit('');
-  }
-
-  /**
    * toggle editor mode (WYSIWYG or SOURCE)
    * @param m boolean
    */
@@ -314,22 +235,22 @@ export class AngularEditorToolbarComponent {
   onFileChanged(event) {
     const file = event.target.files[0];
     if (file.type.includes('image/')) {
-        if (this.uploadUrl) {
-            this.editorService.uploadImage(file).subscribe(e => {
-              if (e instanceof HttpResponse) {
-                this.editorService.insertImage(e.body.imageUrl);
-                this.fileReset();
-              }
-            });
-        } else {
-          const reader = new FileReader();
-          reader.onload = (e: ProgressEvent) => {
-            const fr = e.currentTarget as FileReader;
-            this.editorService.insertImage(fr.result.toString());
-          };
-          reader.readAsDataURL(file);
-        }
+      if (this.uploadUrl) {
+        this.editorService.uploadImage(file).subscribe(e => {
+          if (e instanceof HttpResponse) {
+            this.editorService.insertImage(e.body.imageUrl);
+            this.fileReset();
+          }
+        });
+      } else {
+        const reader = new FileReader();
+        reader.onload = (e: ProgressEvent) => {
+          const fr = e.currentTarget as FileReader;
+          this.editorService.insertImage(fr.result.toString());
+        };
+        reader.readAsDataURL(file);
       }
+    }
   }
 
   /**
@@ -348,6 +269,10 @@ export class AngularEditorToolbarComponent {
     } else {
       this.editorService.createCustomClass(this._customClasses[+classId]);
     }
+  }
+
+  onColorPickerChange(btnName: string) {
+
   }
 
   isButtonHidden(name: string): boolean {

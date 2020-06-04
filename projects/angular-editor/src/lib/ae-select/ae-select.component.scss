@@ -1,3 +1,4 @@
+@import "../variables";
 .ae-font {
   &.ae-picker {
     color: #444;
@@ -15,42 +16,38 @@
     padding-right: 10px;
     position: relative;
     width: 100%;
-    line-height: 26px;
+    line-height: 30px;
     vertical-align: middle;
     font-size: 85%;
     text-align: left;
     background-color: white;
     min-width: 2rem;
     float: left;
-    border: 1px solid #ddd;
-    text-overflow: clip;
     overflow: hidden;
     white-space: nowrap;
-    &:before {
-      content: '';
-      position: absolute;
-      right: 0; top: 0;
-      width: 20px;
-      height: 100%;
-      background: linear-gradient(to right, rgba(255, 255, 255,1), #ffffff 100%);
-    }
+    text-overflow: ellipsis;
+    border: none;
+    transition: 0.2s ease;
     &:focus {
       outline: none;
     }
     &:hover {
       cursor: pointer;
-      background-color: #f1f1f1;
-      transition: 0.2s ease;
-      &:before {
-        background: linear-gradient(to right, #f5f5f5 100%, #ffffff 100%);
+      color: $cv-primary-dark;
+      svg {
+        .ae-stroke {
+          stroke: $cv-primary-dark;
+        }
       }
     }
     &:disabled {
-      background-color: #f5f5f5;
       pointer-events: none;
       cursor: not-allowed;
-      &:before {
-        background: linear-gradient(to right, #f5f5f5 100%, #ffffff 100%);
+      color: $disabled-color;
+      svg {
+        .ae-stroke {
+          stroke: $disabled-color;
+        }
       }
     }
 
@@ -65,7 +62,8 @@
       }
       .ae-stroke {
         fill: none;
-        stroke: #444;
+        transition: 0.2s ease;
+        stroke: $def-color;
         stroke-linecap: round;
         stroke-linejoin: round;
         stroke-width: 2;
@@ -91,19 +89,35 @@
       text-align: left;
       background-color: transparent;
       min-width: 2rem;
+      outline: none;
       width: 100%;
+      transition: .2s ease;
       border: 0 solid #ddd;
       &.selected {
-        color: #06c;
-        background-color: #fff4c2;
-      }
-      &.focused {
-        background-color: #fffa98;
+        color: $cv-primary-dark;
       }
       &:hover {
-        background-color: #fffa98;
+        color: $cv-primary-dark;
       }
     }
+  }
+  .h1 {
+    font-size: $fz-h1;
+  }
+  .h2 {
+    font-size: $fz-h2;
+  }
+  .h3 {
+    font-size: $fz-h3;
+  }
+  .h4 {
+    font-size: $fz-h4;
+  }
+  .small {
+    font-size: $fz-small;
+  }
+  .p {
+    font-size: $fz-base;
   }
   &.ae-expanded {
     display: block;
