@@ -13,5 +13,4 @@ import {ColorPickerModule} from "ngx-color-picker";
   declarations: [InputRichTextComponent, InputRichTextToolbarComponent, AeSelectComponent],
   exports: [InputRichTextComponent, InputRichTextToolbarComponent]
 })
-export class InputRichTextModule {
-}
+export class InputRichTextModule {}

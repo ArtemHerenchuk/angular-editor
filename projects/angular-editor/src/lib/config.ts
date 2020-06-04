@@ -110,7 +110,7 @@ export const initRichTextConfig: IRichTextConfig = {
   uploadUrl: 'v1/image',
   uploadWithCredentials: false,
   sanitize: true,
-  toolbarPosition: 'top',
+  toolbarPosition: 'bottom',
   outline: true,
   toolbarHiddenButtons: [['image'], ['video'], ['fontSize']]
 /*toolbarHiddenButtons: [
