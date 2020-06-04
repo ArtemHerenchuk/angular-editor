@@ -2,7 +2,7 @@ import {Inject, Injectable} from '@angular/core';
 import {HttpClient, HttpEvent} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DOCUMENT} from '@angular/common';
-import {CustomClass} from './config';
+import {IRichTextCustomClass} from './config';
 
 export interface UploadResponse {
   imageUrl: string;
@@ -35,7 +35,7 @@ export class AngularEditorService {
       return;
     } else if (command === 'small') {
       this.removeSelectedElements('h1,h2,h3,h4,p,small');
-      this.createCustomClass(<CustomClass>{name: 'small', class: 'small', tag: 'small'});
+      this.createCustomClass(<IRichTextCustomClass>{name: 'small', class: 'small', tag: 'small'});
       return;
     }
 
@@ -178,7 +178,7 @@ export class AngularEditorService {
     this.doc.execCommand('defaultParagraphSeparator', false, separator);
   }
 
-  createCustomClass(customClass: CustomClass) {
+  createCustomClass(customClass: IRichTextCustomClass) {
     let newTag = this.selectedText;
     if (customClass) {
       const tagName = customClass.tag ? customClass.tag : 'span';

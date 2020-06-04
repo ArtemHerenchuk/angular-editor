@@ -74,10 +74,10 @@ if you using more than one editor on same page set `id` property
 where
 
 ```js
-import { IRIchTextConfig } from '@kolkov/angular-editor';
+import { IRichTextConfig } from '@kolkov/angular-editor';
 
 
-editorConfig: IRIchTextConfig = {
+editorConfig: IRichTextConfig = {
     editable: true,
       spellcheck: true,
       height: 'auto',
@@ -130,7 +130,7 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 | Input  | Type | Default | Required | Description |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | id | `string` | `-` | no | Id property when multiple editor used on same page |
-| [config] | `IRIchTextConfig` | `default config` | no | config for the editor |
+| [config] | `IRichTextConfig` | `default config` | no | config for the editor |
 | placeholder | `string` | `-` | no | Set custom placeholder for input area |
 | tabIndex | `number` | `-` | no | Set Set tabindex on angular-editor |
 
@@ -151,7 +151,7 @@ For `ngModel` to work, you must import `FormsModule` from `@angular/forms`, or f
 ### Other
  Name  | Type | Description |
 | ------------- | ------------- | ------------- |
-| IRIchTextConfig | configuration | Configuration for the AngularEditor component.|
+| IRichTextConfig | configuration | Configuration for the AngularEditor component.|
 
 ### Configuration
 

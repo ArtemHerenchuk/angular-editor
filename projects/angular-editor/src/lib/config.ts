@@ -1,40 +1,40 @@
-export interface CustomClass {
+export interface IRichTextCustomClass {
   name: string;
   class: string;
   tag?: string;
 }
 
-export interface Font {
+export interface IRichTextFont {
   name: string;
   class: string;
   value: string;
 }
 
-export interface ICustomBtn {
+export interface IRichTextCustomBtn {
   id: string;
   ico: string; // font awesome ico
   title: string;
 }
 
-export interface ITag {
+export interface IRichTextTag {
   label: string;
   value: string;
 }
 
-export type toolbarPosition = 'top' | 'bottom';
+export type richTextToolbarPosition = 'top' | 'bottom';
 
-export type hasTranslate = 'yes' | 'no';
+export type richTextHasTranslate = 'yes' | 'no';
 
-export interface IRIchTextConfig {
+export interface IRichTextConfig {
   editable?: boolean;
-  customButtons?: ICustomBtn[];
+  customButtons?: IRichTextCustomBtn[];
   spellcheck?: boolean;
   height?: string;
   minHeight?: string;
   maxHeight?: string;
   width?: string;
   minWidth?: string;
-  translate?: hasTranslate;
+  translate?: richTextHasTranslate;
   enableToolbar?: boolean;
   showToolbar?: boolean;
   textPlaceholder?: string;
@@ -46,16 +46,16 @@ export interface IRIchTextConfig {
   defaultBackgroundColor?: string;
   uploadUrl?: string;
   uploadWithCredentials?: boolean;
-  fonts?: Font[];
-  tags?: ITag[],
-  customClasses?: CustomClass[];
+  fonts?: IRichTextFont[];
+  tags?: IRichTextTag[],
+  customClasses?: IRichTextCustomClass[];
   sanitize?: boolean;
-  toolbarPosition?: toolbarPosition;
+  toolbarPosition?: richTextToolbarPosition;
   outline?: boolean;
   toolbarHiddenButtons?: btnId[][];
 }
 
-export const initRichTextConfig: IRIchTextConfig = {
+export const initRichTextConfig: IRichTextConfig = {
   editable: true,
   customButtons: [],
   spellcheck: true,

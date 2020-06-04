@@ -6,4 +6,4 @@ export * from './lib/angular-editor.service';
 export * from './lib/angular-editor.component';
 export * from './lib/angular-editor-toolbar.component';
 export * from './lib/angular-editor.module';
-export { IRIchTextConfig, CustomClass } from './lib/config';
+export { IRichTextConfig, initRichTextConfig, IRichTextCustomClass, IRichTextCustomBtn, IRichTextTag, IRichTextFont } from './lib/config';

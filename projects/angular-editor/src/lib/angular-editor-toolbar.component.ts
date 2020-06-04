@@ -2,7 +2,7 @@ import {Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, V
 import {AngularEditorService} from './angular-editor.service';
 import {HttpResponse} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
-import {btnId, CustomClass, ICustomBtn, ITag} from './config';
+import {btnId, IRichTextCustomClass, IRichTextCustomBtn, IRichTextTag} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 
 @Component({
@@ -19,7 +19,7 @@ export class AngularEditorToolbarComponent {
   foreColour;
   backColor;
   headings: SelectOption[] = [];
-  @Input() set tags(tags: ITag[]) {
+  @Input() set tags(tags: IRichTextTag[]) {
     this.headings = tags.map(tag => <SelectOption>{label: tag.label, value: tag.value});
   }
   private _defaultTag: string = 'p';
@@ -35,7 +35,7 @@ export class AngularEditorToolbarComponent {
   @Input() backgroundColor = '#fff';
 
   customClassId = '-1';
-  _customClasses: CustomClass[];
+  _customClasses: IRichTextCustomClass[];
   customClassList: SelectOption[] = [{label: '', value: ''}];
   tagMap = {
     BLOCKQUOTE: 'indent',
@@ -51,7 +51,7 @@ export class AngularEditorToolbarComponent {
   @Input() fonts: SelectOption[] = [{label: '', value: '', name: ''}];
 
   @Input()
-  set customClasses(classes: CustomClass[]) {
+  set customClasses(classes: IRichTextCustomClass[]) {
     if (classes) {
       this._customClasses = classes;
       this.customClassList = this._customClasses.map((x, i) => ({
@@ -63,7 +63,7 @@ export class AngularEditorToolbarComponent {
     }
   }
 
-  @Input() customButtons: ICustomBtn[] = [];
+  @Input() customButtons: IRichTextCustomBtn[] = [];
 
   @Input()
   set defaultFontName(value: string) {

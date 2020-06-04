@@ -1,9 +1,9 @@
 {
-  "name": "@kolkov/angular-editor",
-  "version": "1.1.2",
+  "name": "atlas-rich-text",
+  "version": "1.0.0",
   "description": "A simple native WYSIWYG editor for Angular 6+, 7+, 8+. Rich Text editor component for Angular.",
-  "author": "Andrey Kolkov <a.kolkov@gmail.com>",
-  "repository": "https://github.com/kolkov/angular-editor",
+  "author": "Artem Herenchuk",
+  "repository": "https://github.com/ArtemHerenchuk/atlas-editor",
   "license": "MIT",
   "private": false,
   "bugs": {

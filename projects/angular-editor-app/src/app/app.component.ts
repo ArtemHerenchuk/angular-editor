@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IRIchTextConfig} from '../../../angular-editor/src/lib/config';
+import {IRichTextConfig} from '../../../angular-editor/src/lib/config';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
   htmlContent1 = '';
   htmlContent2 = '';
 
-  config1: IRIchTextConfig = {
+  config1: IRichTextConfig = {
     editable: true,
     spellcheck: true,
     minHeight: '5rem',
@@ -76,7 +76,7 @@ export class AppComponent implements OnInit {
     toolbarPosition: 'bottom'
   };
 
-  config2: IRIchTextConfig = {
+  config2: IRichTextConfig = {
     editable: true,
     spellcheck: true,
     minHeight: '5rem',

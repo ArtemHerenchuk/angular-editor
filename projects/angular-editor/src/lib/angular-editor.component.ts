@@ -18,7 +18,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
-import {btnId, initRichTextConfig, IRIchTextConfig} from './config';
+import {initRichTextConfig, IRichTextConfig} from './config';
 import {AngularEditorToolbarComponent} from './angular-editor-toolbar.component';
 import {AngularEditorService} from './angular-editor.service';
 import {DOCUMENT} from '@angular/common';
@@ -53,7 +53,7 @@ export class AngularEditorComponent implements OnInit, ControlValueAccessor, Aft
   blurInstance: any;
 
   @Input() id = '';
-  @Input() config: IRIchTextConfig = initRichTextConfig;
+  @Input() config: IRichTextConfig = initRichTextConfig;
   @Input() tabIndex: number | null;
 
   @ViewChild('editor', {static: true}) textArea: ElementRef;
