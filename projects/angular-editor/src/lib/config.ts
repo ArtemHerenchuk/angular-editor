@@ -59,7 +59,7 @@ export const initRichTextConfig: IRichTextConfig = {
   editable: true,
   customButtons: [],
   spellcheck: true,
-  height: 'auto',
+  height: '120px',
   minHeight: '0',
   maxHeight: 'auto',
   width: 'auto',
@@ -95,10 +95,10 @@ export const initRichTextConfig: IRichTextConfig = {
       label: 'Heading 4',
       value: 'h4',
     },
-    {
-      label: 'Small',
-      value: 'small',
-    },
+    // {
+    //   label: 'Small',
+    //   value: 'small',
+    // },
   ],
   fonts: [
     {class: 'open-sans', name: 'Open Sans', value: 'Open Sans, sans-serif'},
@@ -107,20 +107,13 @@ export const initRichTextConfig: IRichTextConfig = {
     {class: 'calibri', name: 'Calibri', value: 'Calibri'},
     {class: 'comic-sans-ms', name: 'Comic Sans MS', value: 'Comic Sans MS'}
   ],
-  uploadUrl: 'v1/image',
   uploadWithCredentials: false,
   sanitize: true,
   toolbarPosition: 'bottom',
   outline: true,
-  toolbarHiddenButtons: [['image'], ['video'], ['fontSize']]
-/*toolbarHiddenButtons: [
-  ['bold', 'italic', 'underline', 'strikeThrough', 'superscript', 'subscript'],
-  ['heading', 'fontName', 'color'],
-  ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull', 'indent', 'outdent'],
-  ['cut', 'copy', 'delete', 'removeFormat', 'undo', 'redo'],
-  ['paragraph', 'blockquote', 'removeBlockquote', 'horizontalLine', 'orderedList', 'unorderedList'],
-  ['link', 'unlink', 'image', 'video']
-]*/
+  toolbarHiddenButtons: [['link'], ['unlink'], ['insertHorizontalRule'], ['subscript'], ['superscript'],
+    ['strikeThrough'],['insertOrderedList'], ['insertUnorderedList'], ['insertImage'], ['insertVideo'],
+    ['justifyFull'], ['undo'], ['redo'], ['fontName'], ['indent'], ['outdent'], ['image'], ['video'], ['fontSize']]
 };
 
 export type btnId = 'undo' |

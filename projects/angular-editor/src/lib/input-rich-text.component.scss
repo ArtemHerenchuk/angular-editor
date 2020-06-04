@@ -6,7 +6,7 @@
   font-family: 'Open Sans', sans-serif;
   position: relative;
   &.angular-editor-bottom {
-    angular-editor-toolbar {
+    el-input-rich-text-toolbar {
       order: 2;
     }
   }

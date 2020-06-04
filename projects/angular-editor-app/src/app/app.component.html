@@ -5,8 +5,8 @@
   <label for="test_input">Test input </label>
   <input id="test_input">
   <br><br>
-  <angular-editor id="editor1" [(ngModel)]="htmlContent1" [config]="config1" (ngModelChange)="onChange($event)"
-                  (blur)="onBlur($event)"></angular-editor>
+  <el-input-rich-text id="editor1" [(ngModel)]="htmlContent1" [config]="config1" (ngModelChange)="onChange($event)"
+                  (blur)="onBlur($event)"></el-input-rich-text>
   <p class="html">
     HTML Output:  {{ htmlContent1 }}
   </p>

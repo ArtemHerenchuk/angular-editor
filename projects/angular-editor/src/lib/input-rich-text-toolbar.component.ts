@@ -19,14 +19,17 @@ export class InputRichTextToolbarComponent {
   foreColour;
   backColor;
   headings: SelectOption[] = [];
+
   @Input() set tags(tags: IRichTextTag[]) {
     this.headings = tags.map(tag => <SelectOption>{label: tag.label, value: tag.value});
   }
+
   private _defaultTag: string = 'p';
   @Input() set defaultTag(val: string) {
     this._defaultTag = val;
     this.block = val;
   };
+
   get defaultTag(): string {
     return this._defaultTag;
   }
@@ -100,14 +103,14 @@ export class InputRichTextToolbarComponent {
   /**
    * highlight editor buttons when cursor moved or positioning
    */
-  triggerButtons() {
+  triggerButtons(setAllNonActive: boolean = false) {
     if (!this.showToolbar) {
       return;
     }
     this.buttons.forEach(e => {
       const result = this.doc.queryCommandState(e);
       const elementById = this.doc.getElementById(e + '-' + this.id);
-      if (result) {
+      if (result && !setAllNonActive) {
         this.r.addClass(elementById, 'active');
       } else if (elementById) {
         this.r.removeClass(elementById, 'active');

@@ -57,11 +57,7 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
   @Input() set config(val: IRichTextConfig) {
     this._config = {
       ...initRichTextConfig,
-      ...val,
-      toolbarHiddenButtons: [
-        ...(val.toolbarHiddenButtons || []),
-        ...initRichTextConfig.toolbarHiddenButtons
-      ]
+      ...val
     };
   }
   @Input() tabIndex: number | null;
@@ -179,6 +175,8 @@ export class InputRichTextComponent implements OnInit, ControlValueAccessor, Aft
         this.blurEvent.emit(event);
         this.focused = false;
       }
+    } else {
+      this.editorToolbar.triggerButtons(true);
     }
   }
 

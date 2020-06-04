@@ -53,10 +53,10 @@ export class AppComponent implements OnInit {
         label: 'Heading 4',
         value: 'h4',
       },
-      {
-        label: 'Small',
-        value: 'small',
-      },
+      // {
+      //   label: 'Small',
+      //   value: 'small',
+      // },
     ],
     customClasses: [
       {

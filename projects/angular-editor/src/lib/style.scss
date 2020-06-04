@@ -9,14 +9,9 @@ ae-select {
   outline: none;
 }
 
-.angular-editor-textarea {
-
-}
-
 .angular-editor-toolbar {
   font: 100 14px/15px Roboto, Arial, sans-serif;
-  font-size: 0.8rem;
-  padding: 0.2rem;
+  padding: 0;
 
   .angular-editor-toolbar-set {
     display: none;
@@ -35,6 +30,10 @@ ae-select {
       color: $def-color;
       transition: 0.2s ease;
       outline: none;
+
+      .foreground {
+        font-size: 18px;
+      }
 
       &:hover {
         cursor: pointer;
@@ -240,15 +239,29 @@ ae-select {
 
     .background {
       font-size: smaller;
-      background: rgba(0,0,0,0.6);
-      padding: 3px;
+      background: rgba(0, 0, 0, 0.6);
+      padding: 0;
       transition: .2s ease;
-      height: 14px;
-      display: block;
-      width: 14px;
+      height: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+
       i {
-        font-size: 16px;
+        font-size: 14px;
+        padding-top: 1px;
       }
+    }
+  }
+
+  .angular-editor-toolbar-set-color {
+    position: relative;
+    ::ng-deep .color-picker {
+      left: initial !important;
+      right: 60px !important;
+      top: initial !important;
+      bottom: 0 !important;
     }
   }
 
